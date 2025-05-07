@@ -56,19 +56,19 @@ class Spaceship extends GameObject {
     loc.add(vel);
 
     //speed limit
-    float maxSpeed = 5;
+    float maxSpeed = 7;
     if (vel.mag() > maxSpeed) vel.setMag(maxSpeed);
 
     //acceleration
-    if (upkey) vel.add(dir.copy().mult(0.07));
+    if (upkey) vel.add(dir.copy().mult(0.1));
     thrust();
 
     //deceleration
     vel.mult(0.97);
 
     //rotations
-    if (leftkey) dir.rotate(-radians(3));
-    if (rightkey) dir.rotate(radians(3));
+    if (leftkey) dir.rotate(-radians(5));
+    if (rightkey) dir.rotate(radians(5));
 
     //shield
     if (downkey && invulTimer == 0) {
@@ -96,7 +96,7 @@ class Spaceship extends GameObject {
       PVector bulletLoc = loc.copy();
       PVector bulletVel = dir.copy();
       objects.add(new Bullet(bulletLoc, bulletVel, true));
-      shootCooldown = 15;
+      shootCooldown = 0;
       currentBulletsUsed++;
     } else {
       strokeWeight(1);

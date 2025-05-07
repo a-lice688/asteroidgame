@@ -1,7 +1,6 @@
 void drawGame() {
   ufoSpawnTimer++;
-  boolean ufoExists;
-  boolean ufoDestroyed = false;
+  boolean ufoExists = false;
   boolean missileExists = false;
 
   for (GameObject obj : objects) {
@@ -9,10 +8,15 @@ void drawGame() {
     if (obj instanceof Missile) missileExists = true;
   }
 
-  if (!ufoExists && ufoSpawnTimer >= ufoSpawnInterval) {
-    objects.add(new UFO());
+  if (!ufoExists) {
+    ufoSpawnTimer++;
+    if (ufoSpawnTimer >= ufoSpawnInterval) {
+      objects.add(new UFO());
+      ufoSpawnTimer = 0;
+      ufoSpawnInterval = int(random(600, 1000));
+    }
+  } else {
     ufoSpawnTimer = 0;
-    ufoSpawnInterval = int(random(600, 1000));
   }
 
   for (int i = objects.size() - 1; i >= 0; i--) {

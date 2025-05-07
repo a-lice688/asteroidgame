@@ -22,7 +22,7 @@ class UFO extends GameObject {
       shootCooldown = 200;
     }
 
-    if (!firedMissile && missileTimer <= 0) {
+    if (lives > 0 && !firedMissile && missileTimer <= 0) {
       fireMissile();
       firedMissile = true;
     }
@@ -105,6 +105,7 @@ class UFO extends GameObject {
     }
     return new PVector(width/2, height/2);
   }
+  
 
   PVector randomDirection() {
     PVector target = new PVector(random(width), random(height));

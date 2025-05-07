@@ -6,8 +6,6 @@ void mouseReleased() {
     globalStartTime = millis();
     resetGame();
     gameMode = GAME;
-  } else if (gameMode == GAME) {
-    gameMode = PAUSE;
   } else if (gameMode == PAUSE) {
     gameMode = GAME;
   } else if (gameMode == GAME_COMPLETE || gameMode == GAMEOVER_LOSE) {

@@ -22,7 +22,7 @@ void drawWinScreen() {
   text("Time: " + timeTaken + "s", width/2, height/2 - 30);
   text("Ammo Used: " + currentBulletsUsed, width/2, height/2);
 
-  // Store best records
+  // Store the best record
   if (bestTimes[currentLevel] == 0 || timeTaken < bestTimes[currentLevel]) {
     bestTimes[currentLevel] = timeTaken;
   }
