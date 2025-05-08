@@ -1,22 +1,3 @@
-void mouseReleased() {
-  if (gameMode == INTRO) {
-    currentLevel = 1;
-    totalBulletsUsed = 0;
-    totalTimeTaken = 0;
-    globalStartTime = millis();
-    resetGame();
-    gameMode = GAME;
-  } else if (gameMode == PAUSE) {
-    gameMode = GAME;
-  } else if (gameMode == GAME_COMPLETE || gameMode == GAMEOVER_LOSE) {
-    currentLevel = 1;
-    totalBulletsUsed = 0;
-    totalTimeTaken = 0;
-    gameMode = INTRO;
-  }
-}
-
-
 void keyPressed() {
   // Movement keys
   if (keyCode == UP) upkey = true;
@@ -25,11 +6,21 @@ void keyPressed() {
 
   // reset
   if (key == ENTER) {
-    if (gameMode == INTRO || gameMode == GAME_COMPLETE || gameMode == GAMEOVER_LOSE) {
+    if (gameMode == INTRO || gameMode == GAME_COMPLETE) {
       currentLevel = 1;
+
+      totalFlaresUsed = 0;
+      flaresLeft = 50;
+
       totalBulletsUsed = 0;
       totalTimeTaken = 0;
-      globalStartTime = millis();
+
+      gameStartTime = millis();
+      levelStartTime = millis();
+
+      resetGame();
+      gameMode = GAME;
+    } else if (gameMode == GAMEOVER_LOSE) {
       resetGame();
       gameMode = GAME;
     }
@@ -50,12 +41,14 @@ void keyPressed() {
   }
 
   //flares
-  if (key == 'f' && flaresAvailable > 0 && flaresUsed < maxFlares) {
-    for (int i = 0; i < flaresAvailable; i++) {
-      PVector flareVel = new PVector(random(-1, 1), random(-1, 1)).mult(0.5);
+  if (key == 'f' && flaresLeft >= flaresPerTime) {
+    for (int i = 0; i < flaresPerTime; i++) {
+      PVector flareVel = new PVector(random(-1, 1), random(-1, 1)).mult(0.7);
       objects.add(new Flare(player1.loc.copy(), flareVel));
     }
-    flaresUsed += flaresAvailable;
+    flaresLeft -= flaresPerTime;
+    currentFlaresUsed += flaresPerTime;
+    totalFlaresUsed += flaresPerTime;
   }
 
   //shoot
@@ -68,6 +61,25 @@ void keyPressed() {
     downkey = true;
     if (player1.invulTimer == 0) {
       player1.invulTimer = 60;
+    }
+  }
+}
+
+void mousePressed() {
+  if (gameMode == LEVEL_COMPLETE) {
+    if (overButton(width/2, height/2 + 40, 150, 40)) {
+      currentLevel++;
+      resetGame();
+      gameMode = GAME;
+    } else if (overButton(width/2, height/2 + 90, 150, 40)) {
+      resetGame();
+      gameMode = GAME;
+    } else if (overButton(width/2, height/2 + 140, 150, 40)) {
+      gameMode = INTRO;
+    }
+  } else if (gameMode == GAME_COMPLETE) {
+    if (overButton(width/2, height/2 + 60, 200, 50)) {
+      gameMode = INTRO;
     }
   }
 }

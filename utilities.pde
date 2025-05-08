@@ -70,3 +70,33 @@ void drawGameComplete() {
 
   drawButton("Return to Home", width/2, height/2 + 60, 200, 50);
 }
+
+void drawLives(int lives) {
+  for (int i = 0; i < lives; i++) {
+    float x = 30 + i * 20;
+    float y = 30;
+    fill(magenta);
+    stroke(255);
+    triangle(x, y - 10, x - 7, y + 7, x + 7, y + 7);
+  }
+}
+
+void drawFlareCount() {
+
+  pushStyle();
+  fill(255, 150, 0);
+  textAlign(RIGHT, TOP);
+  textSize(16);
+  text("Flares left: " + flaresLeft, width - 10, 10);
+  popStyle();
+}
+
+void drawMissileCountdown() {
+  pushStyle();
+  fill(255, 0, 0);
+  textAlign(CENTER, CENTER);
+  textSize(30);
+  int secondsLeft = max(0, 15 - missileLockTime / 60);
+  text("DODGE! " + secondsLeft, width / 2, height / 2);
+  popStyle();
+}

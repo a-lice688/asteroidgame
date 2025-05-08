@@ -4,12 +4,13 @@ void resetGame() {
   objects.add(player1);
   objects.add(new UFO());
 
-  flaresUsed = 0;
   missileLockTime = 0;
   dodgingMissile = false;
-  currentBulletsUsed = 0;
 
   levelStartTime = millis();
+  currentFlaresUsed = 0;
+  currentBulletsUsed = 0;
+
 
   for (int i = 0; i < levelAsteroidCounts[currentLevel]; i++) {
     objects.add(new Asteroid());

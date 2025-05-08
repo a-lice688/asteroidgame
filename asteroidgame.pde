@@ -19,9 +19,9 @@ int maxLevel = 3;
 int[] levelAsteroidCounts = {0, 4, 8, 15};
 
 int levelStartTime;
-int globalStartTime;
-int levelEndTime;
-int totalTimeTaken = 0;
+int gameStartTime;
+int levelEndTime; //delete this tomorrow
+int totalTimeTaken; //delete this tomorrow
 
 int currentBulletsUsed = 0;
 int totalBulletsUsed = 0;
@@ -31,9 +31,11 @@ int[] bestAmmo = new int[4];
 
 boolean upkey, downkey, leftkey, rightkey, spacekey;
 
-int flaresAvailable = 5;
-int maxFlares = 50;
-int flaresUsed = 0;
+int flaresLeft = 50;         // current usable flares
+int totalFlaresUsed = 0;     // total flares used across all levels
+int currentFlaresUsed = 0;   // flares used this level
+int flaresPerTime = 5;      // how many are launched per press
+
 int missileLockTime = 0;
 boolean dodgingMissile = false;
 
@@ -44,7 +46,7 @@ Spaceship player1;
 ArrayList<GameObject> objects;
 
 void setup() {
-  size(800, 600);
+  size(1000, 800);
   textAlign(CENTER, CENTER);
   rectMode(CENTER);
   objects = new ArrayList<GameObject>();
