@@ -9,10 +9,10 @@ class GameObject {
     lives = 1;
   }
 
-  GameObject(PVector loc, PVector vel, int _lives) {
+  GameObject(PVector loc, PVector vel, int initLives) {
     this.loc = loc.copy();
     this.vel = vel.copy();
-    lives = _lives;
+    lives = initLives;
   }
 
   void act() {

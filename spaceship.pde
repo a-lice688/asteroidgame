@@ -9,6 +9,10 @@ class Spaceship extends GameObject {
   int thrustCooldown;
   int thrustCooldownTime = 100;
 
+  int shootCooldown;
+  PVector dir;
+
+
   /* key "d" -> (If thrustCooldown == 0)
    thrusting = true,
    thrustingCountdown = thrustTime
@@ -23,13 +27,12 @@ class Spaceship extends GameObject {
    thrusting = false;
    */
 
-  int shootCooldown;
-  PVector dir;
-
   Spaceship() {
     super(new PVector(width / 2, height / 2), new PVector(0, 0));
     dir = new PVector(1, 0);
     shootCooldown = 0;
+
+    d = 60;
   }
 
   void show() {
@@ -56,19 +59,19 @@ class Spaceship extends GameObject {
     loc.add(vel);
 
     //speed limit
-    float maxSpeed = 7;
+    float maxSpeed = 8.5;
     if (vel.mag() > maxSpeed) vel.setMag(maxSpeed);
 
     //acceleration
-    if (upkey) vel.add(dir.copy().mult(0.1));
+    if (upkey) vel.add(dir.copy().mult(0.3));
     thrust();
 
     //deceleration
     vel.mult(0.97);
 
     //rotations
-    if (leftkey) dir.rotate(-radians(5));
-    if (rightkey) dir.rotate(radians(5));
+    if (leftkey) dir.rotate(-radians(3.5));
+    if (rightkey) dir.rotate(radians(3.5));
 
     //shield
     if (downkey && invulTimer == 0) {
@@ -96,7 +99,7 @@ class Spaceship extends GameObject {
       PVector bulletLoc = loc.copy();
       PVector bulletVel = dir.copy();
       objects.add(new Bullet(bulletLoc, bulletVel, true));
-      shootCooldown = 0;
+      shootCooldown = 15;
       currentBulletsUsed++;
     } else {
       strokeWeight(1);
@@ -109,6 +112,27 @@ class Spaceship extends GameObject {
     dir = new PVector(1, 0);
     isThrusting = false;
     thrustingCountdown = 0;
+  }
+
+  @Override
+    void wrapAround() {
+    float m = 1;
+
+    if (loc.x < 0) {
+      loc.x = width - m;
+      loc.y = height - loc.y;
+    } else if (loc.x > width) {
+      loc.x = m;
+      loc.y = height - loc.y;
+    }
+
+    if (loc.y < 0) {
+      loc.y = height - m;
+      loc.x = width - loc.x;
+    } else if (loc.y > height) {
+      loc.y = m;
+      loc.x = width - loc.x;
+    }
   }
 
   void checkForCollisions() {
@@ -126,7 +150,7 @@ class Spaceship extends GameObject {
           b.lives = 0;
         }
       }
-      
+
       // UFO collisions -> instant death
       else if (obj instanceof UFO) {
         if (dist(loc.x, loc.y, obj.loc.x, obj.loc.y) < 30) {
@@ -134,7 +158,7 @@ class Spaceship extends GameObject {
           obj.lives = 0;
         }
       }
- 
+
       // Missile collisions -> instant death
       else if (obj instanceof Missile) {
         if (dist(loc.x, loc.y, obj.loc.x, obj.loc.y) < 20) {

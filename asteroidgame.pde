@@ -16,7 +16,7 @@ int gameMode = INTRO;
 
 int currentLevel = 1;
 int maxLevel = 3;
-int[] levelAsteroidCounts = {0, 4, 8, 15};
+int[] levelAsteroidCounts = {0, 3, 5, 8};
 
 int levelStartTime;
 int gameStartTime;
@@ -34,7 +34,7 @@ boolean upkey, downkey, leftkey, rightkey, spacekey;
 int flaresLeft = 50;         // current usable flares
 int totalFlaresUsed = 0;     // total flares used across all levels
 int currentFlaresUsed = 0;   // flares used this level
-int flaresPerTime = 5;      // how many are launched per press
+int flaresPerTime = 5;      // how many used per time
 
 int missileLockTime = 0;
 boolean dodgingMissile = false;

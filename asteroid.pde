@@ -6,7 +6,7 @@ class Asteroid extends GameObject {
   Asteroid() {
     super(new PVector(random(width), random(height)), new PVector(random(-1, 1), random(-1, 1)), 3);
     vel.setMag(random(1, 2));
-    d = lives * 40;
+    d = lives * 60;
 
     rotate = random(-2, 2);
     angle = 0;
@@ -14,8 +14,8 @@ class Asteroid extends GameObject {
 
   Asteroid(float x, float y, int lives) {
     super(new PVector(x, y), new PVector(random(-1, 1), random(-1, 1)), lives);
-    vel.setMag(random(1, 2));
-    d = lives * 30;
+    vel.setMag(random(0.5, 1.5));
+    d = lives * 60;
 
     rotate = random(-2, 2);
     angle = 0;

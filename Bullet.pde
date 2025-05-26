@@ -3,17 +3,17 @@ class Bullet extends GameObject {
   int timer;
 
   Bullet(PVector loc, PVector dir, boolean fromPlayer) {
-    super(loc, dir.copy().setMag(6), 1);
+    super(loc, dir.copy().setMag(8), 1);
     this.fromPlayer = fromPlayer;
-    d = 5;
-    timer = 100;
+    d = 8;
+    timer = 200;
   }
  
   //UFO bullets
   Bullet(PVector loc, PVector dir) {
-    super(loc, dir.copy().setMag(4), 1);
+    super(loc, dir.copy().setMag(6), 1);
     this.fromPlayer = false;
-    d = 5;
+    d = 6;
     timer = 400;
   }
 

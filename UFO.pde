@@ -8,7 +8,7 @@ class UFO extends GameObject {
     loc = randomEdgePosition();
     vel = randomDirection();
     lives = 5;
-    missileTimer = int(random(180, 600));
+    missileTimer = int(random(180, 300));
   }
 
   void act() {
@@ -42,7 +42,7 @@ class UFO extends GameObject {
   void shootAtPlayer() {
     PVector toPlayer = PVector.sub(player1.loc, loc);
     toPlayer.setMag(2);
-    objects.add(new Bullet(loc.copy(), toPlayer, false));
+    objects.add(new Bullet(loc.copy(), toPlayer));
   }
 
   void fireMissile() {
@@ -66,7 +66,7 @@ class UFO extends GameObject {
   }
 
   void checkOutOfBounds() {
-    if (loc.x < -100 || loc.x > width + 100 || loc.y < -100 || loc.y > height + 100) {
+    if (loc.x < - 5 || loc.x > width + 5 || loc.y < - 5 || loc.y > height + 5) {
       lives = 0;
     }
   }
@@ -110,7 +110,7 @@ class UFO extends GameObject {
   PVector randomDirection() {
     PVector target = new PVector(random(width), random(height));
     PVector dir = PVector.sub(target, loc);
-    dir.setMag(1.5);
+    dir.setMag(2.25);
     return dir;
   }
 }
