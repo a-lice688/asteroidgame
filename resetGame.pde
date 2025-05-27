@@ -1,3 +1,4 @@
+
 void resetGame() {
   player1 = new Spaceship();
   objects = new ArrayList<GameObject>();

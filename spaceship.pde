@@ -165,6 +165,36 @@ class Spaceship extends GameObject {
           lives = 0;
           obj.lives = 0;
         }
+      } else if (obj instanceof Upgrade) {
+        Upgrade upg = (Upgrade) obj;
+
+        switch(upg.generate()) {
+        case 0: // 5 secs invulnerability
+          if (invulTimer <= 0) {
+            invulTimer = 300;
+          }
+          break;
+
+        case 1: // bullet spamming into all directions for 3 secs
+          for (int j = 0; j < 360; j += 15) {
+            PVector dir = PVector.fromAngle(radians(j));
+            dir.setMag(7);
+            objects.add(new Bullet(loc.copy(), dir, true));
+          }
+
+          break;
+
+        case 2: //gravitational push
+          for (GameObject object : objects) {
+            if (object != this && dist(loc.x, loc.y, object.loc.x, object.loc.y) < 150) {
+              PVector away = PVector.sub(object.loc, loc);
+              away.setMag(5);
+              object.vel.add(away);
+            }
+          }
+
+          break;
+        }
       }
     }
   }
