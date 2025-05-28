@@ -1,3 +1,6 @@
+//Alice Wang
+//April 1
+
 import java.util.ArrayList;
 
 color neonBlue = color(0, 255, 255);
@@ -39,11 +42,14 @@ int flaresPerTime = 5;      // how many used per time
 int missileLockTime = 0;
 boolean dodgingMissile = false;
 
-int ufoSpawnTimer = 0;
-int ufoSpawnInterval = 1000;
-
 Spaceship player1;
 ArrayList<GameObject> objects;
+
+int ufoSpawnTimer = int(random(180, 300));
+int ufoSpawnInterval = 1000;
+
+int upgradeSpawnTimer = 0;
+int upgradeSpawnInterval = 0;
 
 void setup() {
   size(1000, 800);
@@ -56,23 +62,23 @@ void setup() {
 void draw() {
   background(0);
   switch (gameMode) {
-    case INTRO:
-      drawIntro();
-      break;
-    case GAME:
-      drawGame();
-      break;
-    case PAUSE:
-      drawPause();
-      break;
-    case LEVEL_COMPLETE:
-      drawLevelComplete();
-      break;
-    case GAME_COMPLETE:
-      drawGameComplete();
-      break;
-    case GAMEOVER_LOSE:
-      drawLoseScreen();
-      break;
+  case INTRO:
+    drawIntro();
+    break;
+  case GAME:
+    drawGame();
+    break;
+  case PAUSE:
+    drawPause();
+    break;
+  case LEVEL_COMPLETE:
+    drawLevelComplete();
+    break;
+  case GAME_COMPLETE:
+    drawGameComplete();
+    break;
+  case GAMEOVER_LOSE:
+    drawLoseScreen();
+    break;
   }
 }

@@ -1,5 +1,5 @@
 class Spaceship extends GameObject {
-  int lives = 3;
+  int lives = 300;
 
   int invulTimer = 0;
 
@@ -11,6 +11,12 @@ class Spaceship extends GameObject {
 
   int shootCooldown;
   PVector dir;
+
+  boolean pulseActive = false;
+  boolean pulsePushed = false;
+
+  int pulseTimer = 40;
+
 
 
   /* key "d" -> (If thrustCooldown == 0)
@@ -41,6 +47,8 @@ class Spaceship extends GameObject {
     rotate(dir.heading());
     drawShip();
     popMatrix();
+
+    if (pulseActive) drawPulse();
   }
 
 
@@ -52,6 +60,13 @@ class Spaceship extends GameObject {
 
     if (invulTimer > 0) {
       invulTimer--;
+    }
+
+    if (pulseActive) {
+      pulseTimer--;
+      if (pulseTimer <= 0) pulseActive = false;
+    } else {
+      pulsePushed = false;
     }
   }
 
@@ -172,6 +187,7 @@ class Spaceship extends GameObject {
         case 0: // 5 secs invulnerability
           if (invulTimer <= 0) {
             invulTimer = 300;
+            upg.lives = 0;
           }
           break;
 
@@ -180,19 +196,19 @@ class Spaceship extends GameObject {
             PVector dir = PVector.fromAngle(radians(j));
             dir.setMag(7);
             objects.add(new Bullet(loc.copy(), dir, true));
+            upg.lives = 0;
           }
 
           break;
 
-        case 2: //gravitational push
-          for (GameObject object : objects) {
-            if (object != this && dist(loc.x, loc.y, object.loc.x, object.loc.y) < 150) {
-              PVector away = PVector.sub(object.loc, loc);
-              away.setMag(5);
-              object.vel.add(away);
-            }
-          }
+        case 2: // gravitational push
+          pulseActive = true;
+          pulseTimer = 40;
+          pulsePushed = false;
 
+          drawPulse();
+
+          upg.lives = 0;
           break;
         }
       }
@@ -264,5 +280,31 @@ class Spaceship extends GameObject {
       ellipse(0, 0, 70, 70);
       popStyle();
     }
+  }
+  void drawPulse() {
+    if (!pulsePushed && pulseTimer == 80) {
+      for (GameObject obj : objects) {
+        if (obj != this && !(obj instanceof Bullet && ((Bullet)obj).fromPlayer)) {
+          float dx = obj.loc.x - loc.x;
+          float dy = obj.loc.y - loc.y;
+
+          float dist = sqrt(dx*dx + dy*dy);
+          if (dist > 0) {
+            float strength = map(dist, 0, width * 0.5, 2.5, 0.5);  // stronger closer to ship
+            obj.vel.x += (dx / dist) * strength;
+            obj.vel.y += (dy / dist) * strength;
+          }
+        }
+      }
+      pulsePushed = true;
+    }
+
+    float radius = map(pulseTimer, 40, 0, 0, width * 0.5);
+    pushStyle();
+    noFill();
+    stroke(255, 255, 100, 180);
+    strokeWeight(3);
+    ellipse(loc.x, loc.y, radius, radius);
+    popStyle();
   }
 }
