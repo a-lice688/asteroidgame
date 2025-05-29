@@ -32,7 +32,7 @@ public class Upgrade extends GameObject {
   int generate() {
     int type = -1;
     if (checkForCollisions()) {
-      type = 2;
+      type = int(random(3));
     }
     return type;
   }
@@ -113,7 +113,7 @@ public class Upgrade extends GameObject {
       GameObject obj = objects.get(i);
       if (obj instanceof Spaceship) {
         if (dist(loc.x, loc.y, obj.loc.x, obj.loc.y) < d / 2 + 20) {
-          return true;
+          return true; 
         }
       }
     }

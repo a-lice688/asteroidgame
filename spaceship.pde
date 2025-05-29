@@ -1,5 +1,5 @@
 class Spaceship extends GameObject {
-  int lives = 300;
+  int lives = 10;
 
   int invulTimer = 0;
 
@@ -15,7 +15,7 @@ class Spaceship extends GameObject {
   boolean pulseActive = false;
   boolean pulsePushed = false;
 
-  int pulseTimer = 40;
+  int pulseTimer = 80;
 
 
 
@@ -202,12 +202,22 @@ class Spaceship extends GameObject {
           break;
 
         case 2: // gravitational push
+          for (GameObject object : objects) {
+            if (object != this && !(object instanceof Bullet && ((Bullet)object).fromPlayer)) {
+              float dx = object.loc.x - loc.x;
+              float dy = object.loc.y - loc.y;
+              float dist = sqrt(dx * dx + dy * dy);
+              if (dist > 0) {
+                float strength = map(dist, 0, width * 0.5, 5, 0.5);
+                PVector force = new PVector(dx, dy).normalize().mult(strength);
+                object.vel.add(force);
+                
+                object.vel.mult(0.4);
+                }
+            }
+          }
           pulseActive = true;
-          pulseTimer = 40;
-          pulsePushed = false;
-
-          drawPulse();
-
+          pulseTimer = 80;
           upg.lives = 0;
           break;
         }
@@ -282,24 +292,7 @@ class Spaceship extends GameObject {
     }
   }
   void drawPulse() {
-    if (!pulsePushed && pulseTimer == 80) {
-      for (GameObject obj : objects) {
-        if (obj != this && !(obj instanceof Bullet && ((Bullet)obj).fromPlayer)) {
-          float dx = obj.loc.x - loc.x;
-          float dy = obj.loc.y - loc.y;
-
-          float dist = sqrt(dx*dx + dy*dy);
-          if (dist > 0) {
-            float strength = map(dist, 0, width * 0.5, 2.5, 0.5);  // stronger closer to ship
-            obj.vel.x += (dx / dist) * strength;
-            obj.vel.y += (dy / dist) * strength;
-          }
-        }
-      }
-      pulsePushed = true;
-    }
-
-    float radius = map(pulseTimer, 40, 0, 0, width * 0.5);
+    float radius = map(pulseTimer, 80, 0, 0, width * 1);
     pushStyle();
     noFill();
     stroke(255, 255, 100, 180);

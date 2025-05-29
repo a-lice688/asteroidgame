@@ -48,8 +48,8 @@ ArrayList<GameObject> objects;
 int ufoSpawnTimer = int(random(180, 300));
 int ufoSpawnInterval = 1000;
 
-int upgradeSpawnTimer = 0;
-int upgradeSpawnInterval = 0;
+int upgradeSpawnTimer = int(random(300, 450));
+int upgradeSpawnInterval = int(random(450, 600));
 
 void setup() {
   size(1000, 800);

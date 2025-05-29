@@ -29,7 +29,7 @@ void drawGame() {
     if (upgradeSpawnTimer >= upgradeSpawnInterval) {
       objects.add(new Upgrade());
       upgradeSpawnTimer = 0;
-      upgradeSpawnInterval = int(random(0, 0));
+      upgradeSpawnInterval = int(random(450, 1000));
     }
   }
 
