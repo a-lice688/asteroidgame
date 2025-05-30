@@ -4,13 +4,16 @@ class Spaceship extends GameObject {
   int invulTimer = 0;
 
   boolean isThrusting = false;
-  int thrustingCountdown = 0;
-  int thrustTime = 35;
-  int thrustCooldown;
-  int thrustCooldownTime = 100;
+  int thrustingTimer = 0;
+  int thrustingDuration = 28;
+  int thrustCooldownTimer;
+  int thrustInterval = 100;
 
   int shootCooldown;
   PVector dir;
+
+  int teleportInterval;
+  int teleportCooldown = 300;
 
   boolean pulseActive = false;
   boolean pulsePushed = false;
@@ -37,7 +40,7 @@ class Spaceship extends GameObject {
     super(new PVector(width / 2, height / 2), new PVector(0, 0));
     dir = new PVector(1, 0);
     shootCooldown = 0;
-
+    teleportInterval = 0;
     d = 60;
   }
 
@@ -53,10 +56,12 @@ class Spaceship extends GameObject {
 
 
   void act() {
+
     move();
     shoot();
     wrapAround();
     checkForCollisions();
+    teleport();
 
     if (invulTimer > 0) {
       invulTimer--;
@@ -95,15 +100,15 @@ class Spaceship extends GameObject {
   }
 
   void thrust() {
-    if (isThrusting && thrustingCountdown > 0) {
+    if (isThrusting && thrustingTimer > 0) {
       vel.add(dir.copy().mult(1));
-      thrustingCountdown--;
-      if (thrustingCountdown == 0) {
+      thrustingTimer--;
+      if (thrustingTimer == 0) {
         isThrusting = false;
-        thrustCooldown = thrustCooldownTime;
+        thrustCooldownTimer = thrustInterval;
       }
-    } else if (!isThrusting && thrustCooldown > 0) {
-      thrustCooldown--;
+    } else if (!isThrusting && thrustCooldownTimer > 0) {
+      thrustCooldownTimer--;
     }
   }
 
@@ -121,12 +126,35 @@ class Spaceship extends GameObject {
     }
   }
 
+  void teleport() {
+    if (teleportkey && teleportInterval == 0) {
+
+      PVector newloc = new PVector(random(width), random(height));
+
+      for (GameObject object : objects) {
+        if (object instanceof Asteroid || object instanceof UFO || object instanceof Missile) {
+          if (dist(newloc.x, newloc.y, object.loc.x, object.loc.y) <= d/2 + 50) {
+            
+            
+          }
+        }
+      }
+
+
+      teleportInterval = teleportCooldown;
+    }
+
+    if (teleportInterval > 0) {
+      teleportInterval--;
+    }
+  }
+
   void reset() {
     loc = new PVector(width/2, height/2);
     vel = new PVector(0, 0);
     dir = new PVector(1, 0);
     isThrusting = false;
-    thrustingCountdown = 0;
+    thrustingTimer = 0;
   }
 
   @Override
@@ -211,9 +239,9 @@ class Spaceship extends GameObject {
                 float strength = map(dist, 0, width * 0.5, 5, 0.5);
                 PVector force = new PVector(dx, dy).normalize().mult(strength);
                 object.vel.add(force);
-                
+
                 object.vel.mult(0.4);
-                }
+              }
             }
           }
           pulseActive = true;
@@ -269,7 +297,7 @@ class Spaceship extends GameObject {
     triangle(20, -6, 20, 6, 10, 0);
 
     // Fire
-    if (isThrusting && thrustingCountdown > 0) {
+    if (isThrusting && thrustingTimer > 0) {
       noStroke();
       for (int i = 0; i < 3; i++) {
         float flicker = random(4, 10);

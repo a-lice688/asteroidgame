@@ -4,6 +4,7 @@ void keyPressed() {
   if (keyCode == LEFT) leftkey = true;
   if (keyCode == RIGHT) rightkey = true;
 
+
   // reset
   if (key == ENTER) {
     if (gameMode == INTRO || gameMode == GAME_COMPLETE) {
@@ -34,9 +35,9 @@ void keyPressed() {
 
   //thrust
   if (key == 'd') {
-    if (!player1.isThrusting && player1.thrustCooldown == 0 && player1.thrustingCountdown == 0) {
+    if (!player1.isThrusting && player1.thrustCooldownTimer == 0 && player1.thrustingTimer == 0) {
       player1.isThrusting = true;
-      player1.thrustingCountdown = player1.thrustTime;
+      player1.thrustingTimer = player1.thrustingDuration;
     }
   }
 
@@ -63,6 +64,9 @@ void keyPressed() {
       player1.invulTimer = 60;
     }
   }
+
+  //teleport
+  if (key == 't') teleportkey = true;
 }
 
 void mousePressed() {

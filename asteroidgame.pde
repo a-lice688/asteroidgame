@@ -51,6 +51,8 @@ int ufoSpawnInterval = 1000;
 int upgradeSpawnTimer = int(random(300, 450));
 int upgradeSpawnInterval = int(random(450, 600));
 
+boolean teleportkey;
+
 void setup() {
   size(1000, 800);
   textAlign(CENTER, CENTER);
