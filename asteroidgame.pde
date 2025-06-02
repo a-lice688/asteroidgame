@@ -53,12 +53,16 @@ int upgradeSpawnInterval = int(random(450, 600));
 
 boolean teleportkey;
 
+TeleportGrid grid;
+
+
 void setup() {
   size(1000, 800);
   textAlign(CENTER, CENTER);
   rectMode(CENTER);
   objects = new ArrayList<GameObject>();
   player1 = new Spaceship();
+  grid = new TeleportGrid(80);
 }
 
 void draw() {

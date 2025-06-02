@@ -66,7 +66,12 @@ void keyPressed() {
   }
 
   //teleport
-  if (key == 't') teleportkey = true;
+  if (key == 't') {
+    if (player1.teleportInterval == 0) {
+      player1.teleport();
+      player1.teleportInterval = player1.teleportCooldown;
+    }
+  }
 }
 
 void mousePressed() {

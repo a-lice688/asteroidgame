@@ -12,6 +12,9 @@ void resetGame() {
   currentFlaresUsed = 0;
   currentBulletsUsed = 0;
 
+  player1.teleportInterval = 0;
+
+
 
   for (int i = 0; i < levelAsteroidCounts[currentLevel]; i++) {
     objects.add(new Asteroid());

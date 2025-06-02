@@ -6,6 +6,9 @@ void drawGame() {
 
   boolean upgradeExists = false;
 
+  grid.display();
+  grid.update();
+
 
   for (GameObject obj : objects) {
     if (obj instanceof UFO) ufoExists = true;
@@ -62,6 +65,8 @@ void drawGame() {
     totalBulletsUsed += currentBulletsUsed;
     gameMode = (currentLevel == maxLevel) ? GAME_COMPLETE : LEVEL_COMPLETE;
   }
+
+  drawTeleportCooldown();
 }
 
 void drawButton(String label, float x, float y, float w, float h) {
@@ -82,4 +87,28 @@ boolean checkWinCondition() {
     }
   }
   return true;
+}
+
+void drawTeleportCooldown() {
+
+  pushStyle();
+  float barWidth = 200;
+  float barHeight = 20;
+
+  float x = 50 + barWidth / 2;
+  float y = height - 50;
+
+  float percent = 1 - (float) player1.teleportInterval / player1.teleportCooldown;
+  float currentWidth = barWidth * percent;
+
+  stroke(255);
+  noFill();
+  rectMode(CENTER);
+  rect(x, y, barWidth, barHeight);
+
+  noStroke();
+  fill(255);
+  rectMode(CORNER);
+  rect(x - barWidth / 2, y - barHeight / 2, currentWidth, barHeight);
+  popStyle();
 }

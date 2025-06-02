@@ -61,7 +61,6 @@ class Spaceship extends GameObject {
     shoot();
     wrapAround();
     checkForCollisions();
-    teleport();
 
     if (invulTimer > 0) {
       invulTimer--;
@@ -72,6 +71,10 @@ class Spaceship extends GameObject {
       if (pulseTimer <= 0) pulseActive = false;
     } else {
       pulsePushed = false;
+    }
+
+    if (teleportInterval > 0) {
+      teleportInterval--;
     }
   }
 
@@ -127,27 +130,28 @@ class Spaceship extends GameObject {
   }
 
   void teleport() {
-    if (teleportkey && teleportInterval == 0) {
 
-      PVector newloc = new PVector(random(width), random(height));
+    ArrayList<PVector> safeCells = new ArrayList<PVector>();
 
-      for (GameObject object : objects) {
-        if (object instanceof Asteroid || object instanceof UFO || object instanceof Missile) {
-          if (dist(newloc.x, newloc.y, object.loc.x, object.loc.y) <= d/2 + 50) {
-            
-            
-          }
+    for (int col = 0; col < grid.cols; col++) {
+      for (int row = 0; row < grid.rows; row++) {
+        if (!grid.unsafe[col][row]) {
+          float x = col * grid.gridSize + grid.gridSize / 2;
+          float y = row * grid.gridSize + grid.gridSize / 2;
+          safeCells.add(new PVector(x, y));
         }
       }
-
-
-      teleportInterval = teleportCooldown;
     }
 
-    if (teleportInterval > 0) {
-      teleportInterval--;
+    if (safeCells.size() > 0) {
+      int choice = int(random(safeCells.size()));
+      loc = safeCells.get(choice);
+    } else {
+      println("No safe spot, try again later!");
     }
   }
+
+
 
   void reset() {
     loc = new PVector(width/2, height/2);
