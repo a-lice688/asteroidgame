@@ -13,7 +13,7 @@ class Spaceship extends GameObject {
   PVector dir;
 
   int teleportInterval;
-  int teleportCooldown = 300;
+  int teleportCooldown = 600;
 
   boolean pulseActive = false;
   boolean pulsePushed = false;
@@ -130,7 +130,6 @@ class Spaceship extends GameObject {
   }
 
   void teleport() {
-
     ArrayList<PVector> safeCells = new ArrayList<PVector>();
 
     for (int col = 0; col < grid.cols; col++) {
@@ -138,7 +137,10 @@ class Spaceship extends GameObject {
         if (!grid.unsafe[col][row]) {
           float x = col * grid.gridSize + grid.gridSize / 2;
           float y = row * grid.gridSize + grid.gridSize / 2;
-          safeCells.add(new PVector(x, y));
+          PVector candidate = new PVector(x, y);
+          if (dist(candidate.x, candidate.y, loc.x, loc.y) > 100) {
+            safeCells.add(candidate);
+          }
         }
       }
     }
@@ -150,6 +152,7 @@ class Spaceship extends GameObject {
       println("No safe spot, try again later!");
     }
   }
+
 
 
 
