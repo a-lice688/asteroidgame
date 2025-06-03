@@ -36,15 +36,25 @@ void drawGame() {
     }
   }
 
+  // remove objects 
+  
   for (int i = objects.size() - 1; i >= 0; i--) {
-    GameObject obj = objects.get(i);
-    if (obj.lives == 0 && !(obj instanceof Spaceship)) {
-      objects.remove(i);
-    } else {
-      obj.act();
-      obj.show();
+  GameObject obj = objects.get(i);
+  if (obj.lives == 0 && !(obj instanceof Spaceship)) {
+
+    if (obj instanceof Asteroid) {
+      drawAsteroidParticles(obj.loc.copy());
     }
+    if (obj instanceof UFO) {
+      drawUFOParticles(obj.loc.copy());
+    }
+
+    objects.remove(i);
+  } else {
+    obj.act();
+    obj.show();
   }
+}
 
   drawFlareCount();
 

@@ -40,11 +40,11 @@ public class Upgrade extends GameObject {
   void show() {
     /*
 
-    if (showPulse) {
-      pulseRing();
-    }
-    
-    */
+     if (showPulse) {
+     pulseRing();
+     }
+     
+     */
 
     pushMatrix();
     translate(loc.x, loc.y);
@@ -86,34 +86,13 @@ public class Upgrade extends GameObject {
     popMatrix();
   }
 
-/*
-  void pulseRing() {
-    pushStyle();
-    noFill();
-
-    int rings = 3;
-    float radius = d + 10;
-    float spacing = 15;
-    float baseAlpha = 80;
-
-    for (int i = 0; i < rings; i++) {
-      float pulse = radius + spacing * i + 5 * sin((frameCount + i * 10) * 0.1);
-      stroke(255, 255, 100, baseAlpha - i * 20);
-      strokeWeight(2);
-      ellipse(loc.x, loc.y, pulse, pulse);
-    }
-
-    popStyle();
-  }
-  */
-  
 
   boolean checkForCollisions() {
     for (int i = objects.size() - 1; i >= 0; i--) {
       GameObject obj = objects.get(i);
       if (obj instanceof Spaceship) {
         if (dist(loc.x, loc.y, obj.loc.x, obj.loc.y) < d / 2 + 20) {
-          return true; 
+          return true;
         }
       }
     }

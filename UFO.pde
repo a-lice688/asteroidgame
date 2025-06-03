@@ -105,7 +105,7 @@ class UFO extends GameObject {
     }
     return new PVector(width/2, height/2);
   }
-  
+
 
   PVector randomDirection() {
     PVector target = new PVector(random(width), random(height));

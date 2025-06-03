@@ -15,7 +15,6 @@ void resetGame() {
   player1.teleportInterval = 0;
 
 
-
   for (int i = 0; i < levelAsteroidCounts[currentLevel]; i++) {
     objects.add(new Asteroid());
   }

@@ -63,6 +63,7 @@ class Asteroid extends GameObject {
   }
 
 
+
   void drawAsteroid() {
     pushStyle();
     pushMatrix();

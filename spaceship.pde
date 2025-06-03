@@ -86,15 +86,26 @@ class Spaceship extends GameObject {
     if (vel.mag() > maxSpeed) vel.setMag(maxSpeed);
 
     //acceleration
-    if (upkey) vel.add(dir.copy().mult(0.3));
+    if (upkey) {
+      vel.add(dir.copy().mult(0.3));
+      drawMovingParticles(loc, dir);
+    }
+
     thrust();
 
     //deceleration
     vel.mult(0.97);
 
     //rotations
-    if (leftkey) dir.rotate(-radians(3.5));
-    if (rightkey) dir.rotate(radians(3.5));
+    if (leftkey) {
+      dir.rotate(-radians(3));
+      drawMovingParticles(loc, dir);
+    }
+
+    if (rightkey) {
+      dir.rotate(radians(3));
+      drawMovingParticles(loc, dir);
+    }
 
     //shield
     if (downkey && invulTimer == 0) {
