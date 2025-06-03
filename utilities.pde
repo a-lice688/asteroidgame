@@ -2,13 +2,17 @@ void drawIntro() {
   background(0);
   fill(neonBlue);
   textSize(32);
+  textFont(customFont);
   text("ASTEROID GAME", width/2, height/2 - 40);
   textSize(18);
   text("Press ENTER to Start", width/2, height/2 + 10);
 }
 
 void drawPause() {
+  background(0);
   fill(yellow);
+  textFont(customFontItalic);
+  textSize(32);
   text("Paused - Press P to Resume", width/2, height/2);
 }
 
@@ -18,11 +22,12 @@ void drawWinScreen() {
   int timeTaken = (levelEndTime - levelStartTime) / 1000;
 
   fill(magenta);
+  textFont(customFont);
+  textSize(28);
   text("LEVEL " + currentLevel + " COMPLETE!", width/2, height/2 - 60);
   text("Time: " + timeTaken + "s", width/2, height/2 - 30);
   text("Ammo Used: " + currentBulletsUsed, width/2, height/2);
 
-  // Store the best record
   if (bestTimes[currentLevel] == 0 || timeTaken < bestTimes[currentLevel]) {
     bestTimes[currentLevel] = timeTaken;
   }
@@ -40,6 +45,8 @@ void drawWinScreen() {
 void drawLoseScreen() {
   background(0);
   fill(neonOrange);
+  textFont(customFont);
+  textSize(32);
   text("GAME OVER", width/2, height/2 - 20);
   text("Press ENTER to Retry Level", width/2, height/2 + 20);
 }
@@ -49,11 +56,12 @@ void drawLevelComplete() {
   int timeSoFar = totalTimeTaken / 1000;
 
   fill(magenta);
+  textFont(customFont);
+  textSize(28);
   text("LEVEL " + currentLevel + " COMPLETE!", width/2, height/2 - 60);
   text("Time So Far: " + timeSoFar + "s", width/2, height/2 - 30);
   text("Ammo Used So Far: " + totalBulletsUsed, width/2, height/2);
 
-  // Buttons
   drawButton("Next Level", width/2, height/2 + 40, 150, 40);
   drawButton("Retry Level", width/2, height/2 + 90, 150, 40);
   drawButton("Return to Home", width/2, height/2 + 140, 150, 40);
@@ -64,6 +72,8 @@ void drawGameComplete() {
   int finalTime = totalTimeTaken / 1000;
 
   fill(yellow);
+  textFont(customFont);
+  textSize(32);
   text("GAME COMPLETE!", width/2, height/2 - 60);
   text("Total Time: " + finalTime + "s", width/2, height/2 - 30);
   text("Total Ammo Used: " + totalBulletsUsed, width/2, height/2);
@@ -81,22 +91,45 @@ void drawLives(int lives) {
   }
 }
 
+//default font
 void drawFlareCount() {
-
   pushStyle();
+  textFont(createFont("Arial", 16));
   fill(255, 150, 0);
   textAlign(RIGHT, TOP);
-  textSize(16);
   text("Flares left: " + flaresLeft, width - 10, 10);
   popStyle();
 }
 
+//default font
 void drawMissileCountdown() {
   pushStyle();
+  textFont(createFont("Arial", 30));
   fill(255, 0, 0);
   textAlign(CENTER, CENTER);
-  textSize(30);
   int secondsLeft = max(0, 15 - missileLockTime / 60);
   text("DODGE! " + secondsLeft, width / 2, height / 2);
+  popStyle();
+}
+
+void drawTeleportCooldown() {
+  pushStyle();
+  float barWidth = 200;
+  float barHeight = 20;
+  float x = 50 + barWidth / 2;
+  float y = height - 50;
+
+  float percent = 1 - (float) player1.teleportInterval / player1.teleportCooldown;
+  float currentWidth = barWidth * percent;
+
+  stroke(255);
+  noFill();
+  rectMode(CENTER);
+  rect(x, y, barWidth, barHeight);
+
+  noStroke();
+  fill(255);
+  rectMode(CORNER);
+  rect(x - barWidth / 2, y - barHeight / 2, currentWidth, barHeight);
   popStyle();
 }

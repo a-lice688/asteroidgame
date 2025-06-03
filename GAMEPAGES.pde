@@ -98,27 +98,3 @@ boolean checkWinCondition() {
   }
   return true;
 }
-
-void drawTeleportCooldown() {
-
-  pushStyle();
-  float barWidth = 200;
-  float barHeight = 20;
-
-  float x = 50 + barWidth / 2;
-  float y = height - 50;
-
-  float percent = 1 - (float) player1.teleportInterval / player1.teleportCooldown;
-  float currentWidth = barWidth * percent;
-
-  stroke(255);
-  noFill();
-  rectMode(CENTER);
-  rect(x, y, barWidth, barHeight);
-
-  noStroke();
-  fill(255);
-  rectMode(CORNER);
-  rect(x - barWidth / 2, y - barHeight / 2, currentWidth, barHeight);
-  popStyle();
-}

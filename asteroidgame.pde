@@ -3,6 +3,9 @@
 
 import java.util.ArrayList;
 
+PFont customFont;
+PFont customFontItalic;
+
 color neonBlue = color(0, 255, 255);
 color magenta = color(255, 0, 255);
 color yellow = color(255, 255, 51);
@@ -56,6 +59,9 @@ TeleportGrid grid;
 
 void setup() {
   size(1000, 800);
+  
+  customFont = createFont("Monocraft-Light.ttf", 40);
+  customFontItalic = createFont("Monocraft-Light-Italic.ttf", 40);
   textAlign(CENTER, CENTER);
   rectMode(CENTER);
   objects = new ArrayList<GameObject>();
